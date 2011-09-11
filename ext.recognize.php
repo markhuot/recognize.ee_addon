@@ -19,27 +19,18 @@ class Recognize_ext
 	
 	public function sessions_start()
 	{
-		if (!@$_GET['API'] || ($method = @$_GET['do']) === FALSE)
+		if ($this->EE->input->get('API') === FALSE)
 		{
 			return false;
 		}
 		
-		if (!method_exists($this, $method))
+		if (($method = $this->EE->input->get('do')) === FALSE)
 		{
 			return false;
 		}
 		
-		$this->{$method}();
-		
-		die;
-	}
-	
-	// presents the login screen
-	public function login()
-	{
-		echo $this->EE->load->view('login', array(
-			'message' => ''
-		), TRUE);
+		$this->EE->load->helper('recognize');
+		$this->EE->functions->redirect(act_url(RE_SHORT_NAME, $method, $_GET));
 	}
 	
 }

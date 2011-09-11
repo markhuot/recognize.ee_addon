@@ -24,6 +24,16 @@ class Recognize_upd
 		);
 		$this->EE->db->insert('modules', $data);
 		
+		// insert actions
+		foreach (array(
+			array('class' => $this->module_name, 'method' => 'login'),
+			array('class' => $this->module_name, 'method' => 'post_login'),
+			array('class' => $this->module_name, 'method' => 'allow_app')
+		) as $action)
+		{
+			$this->EE->db->insert('actions', $action);
+		}
+		
 		// install extension
 		foreach (array(
 			'sessions_start'
@@ -73,6 +83,10 @@ class Recognize_upd
 		// remove module
 		$this->EE->db->where('module_name', $this->module_name);
 		$this->EE->db->delete('modules');
+		
+		// remove actions
+		$this->EE->db->where('class', $this->module_name);
+		$this->EE->db->delete('actions');
 		
 		// remove extension
 		$this->EE->db->where('class', "{$this->module_name}_ext");
