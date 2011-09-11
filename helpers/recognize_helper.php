@@ -20,3 +20,9 @@ function re_cp_url($method='', $base=TRUE)
 	
 	return $url;
 }
+
+function l($key)
+{
+	$ci =& get_instance();
+	return $ci->lang->line($key);
+}
