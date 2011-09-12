@@ -29,6 +29,8 @@ class Recognize
 	
 	public function post_login()
 	{
+		$this->_check_app();
+		
 		$this->EE->load->library('auth');
 		
 		$username = $this->EE->input->post('username');
@@ -47,6 +49,8 @@ class Recognize
 	{
 		$this->_check_app();
 		$this->_check_login();
+		
+		$this->EE->load->view('allow');
 	}
 	
 	private function _check_login()

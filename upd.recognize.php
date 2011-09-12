@@ -60,6 +60,17 @@ class Recognize_upd
 		$this->EE->dbforge->add_key("id", TRUE);
 		$this->EE->dbforge->create_table('recognize_apps');
 		
+		$this->EE->dbforge->add_field("`id` int(11) NOT NULL AUTO_INCREMENT");
+		$this->EE->dbforge->add_field("`member_id` varchar(100) NULL");
+		$this->EE->dbforge->add_field("`app_id` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`code` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`access_token` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`token_type` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`expires_in` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`scope` varchar(512) NULL");
+		$this->EE->dbforge->add_key("id", TRUE);
+		$this->EE->dbforge->create_table('recognize_auths');
+		
 		return TRUE;
 	}
 	
@@ -95,6 +106,7 @@ class Recognize_upd
 		// drop tables
 		$this->EE->load->dbforge();
 		$this->EE->dbforge->drop_table('recognize_apps');
+		$this->EE->dbforge->drop_table('recognize_auths');
 		
 		return TRUE;
 	}
