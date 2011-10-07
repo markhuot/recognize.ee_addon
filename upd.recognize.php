@@ -56,7 +56,6 @@ class Recognize_upd
 		$this->EE->dbforge->add_field("`app_name` varchar(100) NULL");
 		$this->EE->dbforge->add_field("`app_id` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`app_secret` varchar(512) NULL");
-		$this->EE->dbforge->add_field("`callback_url` varchar(512) NULL");
 		$this->EE->dbforge->add_key("id", TRUE);
 		$this->EE->dbforge->create_table('recognize_apps');
 		

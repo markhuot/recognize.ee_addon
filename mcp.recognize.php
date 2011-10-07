@@ -50,8 +50,7 @@ class Recognize_mcp {
 		$this->EE->db->insert('exp_recognize_apps', array(
 			'app_name' => $this->EE->input->post('app_name'),
 			'app_id' => $this->EE->functions->random('alnum', 8),
-			'app_secret' => $this->EE->functions->random('sha1', 54),
-			'callback_url' => $this->EE->input->post('callback_url')
+			'app_secret' => $this->EE->functions->random('sha1', 54)
 		));
 		
 		$this->EE->functions->redirect(re_cp_url('list_app'));
