@@ -14,6 +14,7 @@ class Recognize
 	
 	public function login()
 	{
+		$this->_check_input();
 		$this->_check_app();
 		
 		if ($this->EE->session->userdata('member_id'))
@@ -30,6 +31,7 @@ class Recognize
 	
 	public function post_login()
 	{
+		$this->_check_input();
 		$this->_check_app();
 		
 		$this->EE->load->library('auth');
@@ -46,6 +48,7 @@ class Recognize
 	
 	public function allow()
 	{
+		$this->_check_input();
 		$this->_check_app();
 		$this->_check_login();
 		
@@ -54,7 +57,19 @@ class Recognize
 	
 	public function post_allow()
 	{
+		$this->_check_input();
+		$this->_check_app();
+		$this->_check_login();
+		
 		$this->EE->recognize->allow($this->EE->input->get('client_id'));
+	}
+	
+	private function _check_input()
+	{
+		if ($this->EE->input->get('response_type') !== 'code')
+		{
+			show_error(l('bad_response_type'));
+		}
 	}
 	
 	private function _check_login()
