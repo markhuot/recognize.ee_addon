@@ -39,9 +39,7 @@ class Recognize
 		$member = $this->EE->auth->authenticate_username($username, $password);
 		$member->start_session(TRUE);
 		
-		unset($_POST['username']);
-		unset($_POST['password']);
-		$url = act_url(RE_SHORT_NAME, 'allow_app', $_POST);
+		$url = act_url(RE_SHORT_NAME, 'allow_app', $_GET);
 		$this->EE->functions->redirect($url);
 	}
 	
