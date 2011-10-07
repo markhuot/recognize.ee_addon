@@ -66,7 +66,7 @@ class Recognize_upd
 		$this->EE->dbforge->add_field("`code` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`access_token` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`token_type` varchar(512) NULL");
-		$this->EE->dbforge->add_field("`expires_in` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`expires_at` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`scope` varchar(512) NULL");
 		$this->EE->dbforge->add_key("id", TRUE);
 		$this->EE->dbforge->create_table('recognize_auths');
