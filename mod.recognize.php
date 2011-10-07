@@ -17,7 +17,7 @@ class Recognize
 		
 		if ($this->EE->session->userdata('member_id'))
 		{
-			$url = act_url(RE_SHORT_NAME, 'allow_app', $_GET);
+			$url = act_url(RE_SHORT_NAME, 'allow', $_GET);
 			$this->EE->functions->redirect($url);
 		}
 		
@@ -39,16 +39,21 @@ class Recognize
 		$member = $this->EE->auth->authenticate_username($username, $password);
 		$member->start_session(TRUE);
 		
-		$url = act_url(RE_SHORT_NAME, 'allow_app', $_GET);
+		$url = act_url(RE_SHORT_NAME, 'allow', $_GET);
 		$this->EE->functions->redirect($url);
 	}
 	
-	public function allow_app()
+	public function allow()
 	{
 		$this->_check_app();
 		$this->_check_login();
 		
 		$this->EE->load->view('allow');
+	}
+	
+	public function post_allow()
+	{
+		
 	}
 	
 	private function _check_login()

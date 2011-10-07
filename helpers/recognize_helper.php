@@ -17,7 +17,13 @@ function act_url($class, $method, $raw_params=array())
 	
 	$qs = ($ee->config->item('force_query_string') == 'y') ? '' : '?';
 	$query = count($params)?'&'.http_build_query($params):'';
-	return $ee->functions->fetch_site_index(0, 0).$qs.'ACT='.$ee->functions->fetch_action_id($class, $method).$query;
+	
+	$action_id = $ee->db->where(array(
+		'class' => $class,
+		'method' => $method
+	))->get('actions')->row('action_id');
+	
+	return $ee->functions->fetch_site_index(0, 0).$qs.'ACT='.$action_id.$query;
 }
 
 function re_cp_url($method='', $base=TRUE)

@@ -28,7 +28,8 @@ class Recognize_upd
 		foreach (array(
 			array('class' => $this->module_name, 'method' => 'login'),
 			array('class' => $this->module_name, 'method' => 'post_login'),
-			array('class' => $this->module_name, 'method' => 'allow_app')
+			array('class' => $this->module_name, 'method' => 'allow'),
+			array('class' => $this->module_name, 'method' => 'post_allow'),
 		) as $action)
 		{
 			$this->EE->db->insert('actions', $action);
