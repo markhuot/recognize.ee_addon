@@ -61,10 +61,11 @@ class Recognize
 		$this->_check_app();
 		$this->_check_login();
 		
-		$this->EE->recognize->allow($this->EE->input->get('client_id'));
+		$client_id = $this->EE->input->get('client_id');
+		$result = $this->EE->recognize->generate_code($client_id, 'code');
 		
 		$url = act_url(RE_SHORT_NAME, 'redirect_uri', array(
-			'code' => '',
+			'code' => $result->code,
 			'state' => $this->EE->input->get('state')
 		));
 		$this->EE->functions->redirect($url);

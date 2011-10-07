@@ -3,10 +3,10 @@
 class Recognize_model extends CI_Model
 {
 	
-	public function allow($client_id)
+	public function generate_code($client_id, $type)
 	{
 		$type = 'code';
-		$code = '';
+		$code = $this->functions->random('sha1', 54);
 		$access_token = '';
 		$token_type = '';
 		$expires_in = 60 * 10; /* 10 minutes */
@@ -22,6 +22,11 @@ class Recognize_model extends CI_Model
 		$this->db->set('expires_at', $expires_at);
 		$this->db->set('scope', $scope);
 		$this->db->insert('exp_recognize_auths');
+		
+		return (object)array(
+			'code' => $code,
+			'expires_in' => $expires_in
+		);
 	}
 	
 }
