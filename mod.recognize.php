@@ -9,6 +9,7 @@ class Recognize
 	{
 		$this->EE =& get_instance();
 		$this->EE->load->helper('recognize');
+		$this->EE->load->model('recognize_model', 'recognize');
 	}
 	
 	public function login()
@@ -53,7 +54,7 @@ class Recognize
 	
 	public function post_allow()
 	{
-		
+		$this->EE->recognize->allow($this->EE->input->get('client_id'));
 	}
 	
 	private function _check_login()
