@@ -62,6 +62,17 @@ class Recognize
 		$this->_check_login();
 		
 		$this->EE->recognize->allow($this->EE->input->get('client_id'));
+		
+		$url = act_url(RE_SHORT_NAME, 'redirect_uri', array(
+			'code' => '',
+			'state' => $this->EE->input->get('state')
+		));
+		$this->EE->functions->redirect($url);
+	}
+	
+	public function redirect_uri()
+	{
+		
 	}
 	
 	/**
