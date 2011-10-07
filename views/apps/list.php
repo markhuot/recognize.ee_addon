@@ -25,7 +25,7 @@
 		</a>
 	</td>
 	<td>
-		<a href="?API=oauth&do=login&client_id=<?=$app->app_id?>&scope=all">
+		<a href="?API=oauth&do=login&response_type=code&client_id=<?=$app->app_id?>&scope=all&state=testing">
 			Test
 		</a>
 	</td>
