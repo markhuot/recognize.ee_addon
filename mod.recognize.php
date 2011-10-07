@@ -64,6 +64,10 @@ class Recognize
 		$this->EE->recognize->allow($this->EE->input->get('client_id'));
 	}
 	
+	/**
+	 * Checks that a valid response_type is set.
+	 * http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.1
+	 */
 	private function _check_input()
 	{
 		if ($this->EE->input->get('response_type') !== 'code')
