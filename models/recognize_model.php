@@ -5,6 +5,7 @@ class Recognize_model extends CI_Model
 	
 	public function allow($client_id)
 	{
+		$type = 'code';
 		$code = '';
 		$access_token = '';
 		$token_type = '';
@@ -14,6 +15,7 @@ class Recognize_model extends CI_Model
 		
 		$this->db->set('member_id', $this->session->userdata('member_id'));
 		$this->db->set('app_id', $client_id);
+		$this->db->set('type', $type);
 		$this->db->set('code', $code);
 		$this->db->set('access_token', $access_token);
 		$this->db->set('token_type', $token_type);
