@@ -30,6 +30,7 @@ class Recognize_upd
 			array('class' => $this->module_name, 'method' => 'post_login'),
 			array('class' => $this->module_name, 'method' => 'allow'),
 			array('class' => $this->module_name, 'method' => 'post_allow'),
+			array('class' => $this->module_name, 'method' => 'redirect_uri'),
 		) as $action)
 		{
 			$this->EE->db->insert('actions', $action);
@@ -63,6 +64,7 @@ class Recognize_upd
 		$this->EE->dbforge->add_field("`id` int(11) NOT NULL AUTO_INCREMENT");
 		$this->EE->dbforge->add_field("`member_id` varchar(100) NULL");
 		$this->EE->dbforge->add_field("`app_id` varchar(512) NULL");
+		$this->EE->dbforge->add_field("`type` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`code` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`access_token` varchar(512) NULL");
 		$this->EE->dbforge->add_field("`token_type` varchar(512) NULL");
