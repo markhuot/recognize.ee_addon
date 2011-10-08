@@ -17,8 +17,9 @@ class Recognize_ext
 		$this->EE =& get_instance();
 	}
 	
-	public function sessions_start()
+	public function sessions_end($session)
 	{
+		$this->EE->session = $session;
 		$class = $method = FALSE;
 		
 		if ($this->EE->input->get('API'))
