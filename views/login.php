@@ -1,8 +1,5 @@
 <?=$this->functions->form_declaration(array(
-	'action' => act_url(RE_SHORT_NAME, 'post_login', array(
-		'client_id' => $this->input->get('client_id'),
-		'client_secret' => $this->input->get('client_secret')
-	))
+	'action' => act_url(RE_SHORT_NAME, 'post_login', $_GET)
 ))?>
 
 <p>
