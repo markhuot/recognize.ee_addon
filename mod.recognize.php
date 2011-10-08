@@ -12,6 +12,21 @@ class Recognize
 		$this->EE->load->model('recognize_model', 'recognize');
 	}
 	
+	public function authorize()
+	{
+		if ($this->EE->session->userdata('member_id') == FALSE)
+		{
+			$url = act_url(RE_SHORT_NAME, 'login', $_GET);
+			$this->EE->functions->redirect($url);
+		}
+		
+		else
+		{
+			$url = act_url(RE_SHORT_NAME, 'allow', $_GET);
+			$this->EE->functions->redirect($url);
+		}
+	}
+	
 	public function login()
 	{
 		$this->_check_input();

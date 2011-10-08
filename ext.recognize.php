@@ -24,7 +24,7 @@ class Recognize_ext
 			return false;
 		}
 		
-		if (($class = $this->EE->uri->segment(2)) === FALSE)
+		if (($class = ucfirst($this->EE->uri->segment(2))) === FALSE)
 		{
 			return false;
 		}

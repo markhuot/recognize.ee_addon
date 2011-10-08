@@ -26,6 +26,7 @@ class Recognize_upd
 		
 		// insert actions
 		foreach (array(
+			array('class' => $this->module_name, 'method' => 'authorize'),
 			array('class' => $this->module_name, 'method' => 'login'),
 			array('class' => $this->module_name, 'method' => 'post_login'),
 			array('class' => $this->module_name, 'method' => 'allow'),

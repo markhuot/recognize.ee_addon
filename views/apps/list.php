@@ -25,7 +25,7 @@
 		</a>
 	</td>
 	<td>
-		<a href="?API=oauth&do=login&response_type=code&client_id=<?=$app->app_id?>&scope=all&state=testing">
+		<a href="<?php echo $this->functions->create_url('api/recognize/authorize'); ?>?response_type=code&client_id=<?=$app->app_id?>&scope=all&state=testing">
 			Test
 		</a>
 	</td>
