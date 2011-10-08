@@ -29,8 +29,7 @@ class Recognize
 	
 	public function login()
 	{
-		$this->_check_input();
-		$this->_check_app();
+		$this->_check_app($this->EE->input->get('client_id'));
 		
 		if ($this->EE->session->userdata('member_id'))
 		{
@@ -46,8 +45,7 @@ class Recognize
 	
 	public function post_login()
 	{
-		$this->_check_input();
-		$this->_check_app();
+		$this->_check_app($this->EE->input->get('client_id'));
 		
 		$this->EE->load->library('auth');
 		
@@ -63,8 +61,10 @@ class Recognize
 	
 	public function allow()
 	{
-		$this->_check_input();
-		$this->_check_app();
+		$this->_check_input(array(
+			'response_type' => 'code'
+		));
+		$this->_check_app($this->EE->input->get('client_id'));
 		$this->_check_login();
 		
 		$this->EE->load->view('allow');
@@ -72,8 +72,10 @@ class Recognize
 	
 	public function post_allow()
 	{
-		$this->_check_input();
-		$this->_check_app();
+		$this->_check_input(array(
+			'response_type' => 'code'
+		));
+		$this->_check_app($this->EE->input->get('client_id'));
 		$this->_check_login();
 		
 		$client_id = $this->EE->input->get('client_id');
@@ -93,9 +95,13 @@ class Recognize
 	
 	public function token()
 	{
-		$this->_check_input();
-		$this->_check_app();
-		$this->_check_login();
+		$client_id = $this->EE->input->post('client_id');
+		$client_secret = $this->EE->input->post('client_secret');
+		
+		$this->_check_input(array(
+			'grant_type' => 'authorization_code'
+		));
+		$this->_check_app($client_id, $client_secret);
 		
 		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token');
 		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token');
@@ -112,11 +118,14 @@ class Recognize
 	 * Checks that a valid response_type is set.
 	 * http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.1
 	 */
-	private function _check_input()
+	private function _check_input($check, $strict=TRUE)
 	{
-		if ($this->EE->input->get('response_type') !== 'code')
+		foreach ($check as $key => $value)
 		{
-			show_error(l('bad_response_type'));
+			if ($this->EE->input->get_post($key) !== $value)
+			{
+				show_error(l('bad_input', $key.' = '.$this->EE->input->get_post($key)));
+			}
 		}
 	}
 	
@@ -129,14 +138,13 @@ class Recognize
 		}
 	}
 	
-	private function _check_app($secret=FALSE)
+	private function _check_app($client_id, $client_secret=FALSE)
 	{
-		$client_id = $this->EE->input->get('client_id');
 		$this->EE->db->where('app_id', $client_id);
 		
-		if ($secret !== FALSE)
+		if ($client_secret !== FALSE)
 		{
-			$this->EE->db->where('app_secret', $secret);
+			$this->EE->db->where('app_secret', $client_secret);
 		}
 		
 		$app = $this->EE->db->get('exp_recognize_apps');
