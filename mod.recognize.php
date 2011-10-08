@@ -55,7 +55,7 @@ class Recognize
 		$password = $this->EE->input->post('password');
 		
 		$member = $this->EE->auth->authenticate_username($username, $password);
-		$member->start_session(TRUE);
+		$member->start_session(FALSE);
 		
 		$url = act_url(RE_SHORT_NAME, 'allow', $_GET);
 		$this->EE->functions->redirect($url);
