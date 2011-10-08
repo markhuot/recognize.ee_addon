@@ -77,7 +77,7 @@ class Recognize
 		$this->_check_login();
 		
 		$client_id = $this->EE->input->get('client_id');
-		$result = $this->EE->recognize->generate_code($client_id, 'code');
+		$result = $this->EE->recognize->generate_code($client_id, 'authorization');
 		
 		$url = act_url(RE_SHORT_NAME, 'redirect_uri', array(
 			'code' => $result->code,
@@ -99,6 +99,13 @@ class Recognize
 		
 		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token');
 		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token');
+		
+		echo http_build_query(array(
+			'access_token' => $access_token->code,
+			'token_type' => 'bearer',
+			'expires_in' => $access_token->expires_in,
+			'refresh_token' => $refresh_token->code
+		));
 	}
 	
 	/**
