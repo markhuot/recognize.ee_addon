@@ -49,5 +49,6 @@ function l($key)
 {
 	$ci =& get_instance();
 	$ci->lang->load('recognize', '', FALSE, TRUE, PATH_THIRD.'recognize/');
-	return $ci->lang->line($key);
+	
+	return vsprintf($ci->lang->line($key), array_slice(func_get_args(), 1));
 }

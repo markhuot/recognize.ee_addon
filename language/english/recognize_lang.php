@@ -13,4 +13,4 @@ $lang['add_app'] = 'Add Application';
 
 // Errors
 $lang['no_app'] = 'The specified app could not be found.';
-$lang['bad_response_type'] = 'You must specify a valid response type.';
+$lang['bad_input'] = 'The specified input (%s) is not valid.';
