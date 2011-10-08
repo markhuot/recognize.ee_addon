@@ -91,6 +91,16 @@ class Recognize
 		
 	}
 	
+	public function token()
+	{
+		$this->_check_input();
+		$this->_check_app();
+		$this->_check_login();
+		
+		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token');
+		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token');
+	}
+	
 	/**
 	 * Checks that a valid response_type is set.
 	 * http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.1
@@ -112,10 +122,16 @@ class Recognize
 		}
 	}
 	
-	private function _check_app()
+	private function _check_app($secret=FALSE)
 	{
 		$client_id = $this->EE->input->get('client_id');
 		$this->EE->db->where('app_id', $client_id);
+		
+		if ($secret !== FALSE)
+		{
+			$this->EE->db->where('app_secret', $secret);
+		}
+		
 		$app = $this->EE->db->get('exp_recognize_apps');
 		
 		if ($app->num_rows === 0)
