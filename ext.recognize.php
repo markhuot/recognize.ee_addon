@@ -19,18 +19,23 @@ class Recognize_ext
 	
 	public function sessions_start()
 	{
-		if ($this->EE->input->get('API') === FALSE)
+		if ($this->EE->uri->segment(1) !== 'api')
 		{
 			return false;
 		}
 		
-		if (($method = $this->EE->input->get('do')) === FALSE)
+		if (($class = $this->EE->uri->segment(2)) === FALSE)
+		{
+			return false;
+		}
+		
+		if (($method = $this->EE->uri->segment(3)) === FALSE)
 		{
 			return false;
 		}
 		
 		$this->EE->load->helper('recognize');
-		$this->EE->functions->redirect(act_url(RE_SHORT_NAME, $method, $_GET));
+		$this->EE->functions->redirect(act_url($class, $method, $_GET));
 	}
 	
 }
