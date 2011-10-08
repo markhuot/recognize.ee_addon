@@ -1,6 +1,7 @@
 <?php
 
 require_once PATH_THIRD.'recognize/config'.EXT;
+require_once PATH_THIRD.'recognize/ext.recognize'.EXT;
 
 class Recognize_upd
 {
@@ -39,9 +40,17 @@ class Recognize_upd
 		}
 		
 		// install extension
-		foreach (array(
-			'sessions_start'
-		) as $hook)
+		$methods = array();
+		$method_list = get_class_methods('Recognize_ext');
+		foreach ($method_list as $method)
+		{
+			if (substr($method, 0, 1) !== '_')
+			{
+				$methods[] = $method;
+			}
+		}
+		
+		foreach ($methods as $hook)
 		{
 			$this->EE->db->insert('extensions', array(
 				'class'		=> "{$this->module_name}_ext",
