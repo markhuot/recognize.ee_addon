@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once PATH_THIRD.'recognize/config'.EXT;
 
 class Recognize_ext
@@ -19,6 +20,12 @@ class Recognize_ext
 	
 	public function sessions_end($session)
 	{
+		if (@$_SESSION['recognize_post'] && !$_POST)
+		{
+			$_POST = $_SESSION['recognize_post'];
+			unset($_SESSION['recognize_post']);
+		}
+		
 		$this->EE->session = $session;
 		$class = $method = FALSE;
 		
@@ -50,6 +57,11 @@ class Recognize_ext
 		
 		if ($class && $method)
 		{
+			if ($_POST)
+			{
+				$_SESSION['recognize_post'] = $_POST;
+			}
+			
 			$this->EE->load->helper('recognize');
 			$this->EE->functions->redirect(act_url($class, $method, $_GET));
 		}
