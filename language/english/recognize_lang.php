@@ -14,3 +14,4 @@ $lang['add_app'] = 'Add Application';
 // Errors
 $lang['no_app'] = 'The specified app could not be found.';
 $lang['bad_input'] = 'The specified input (%s) is not valid.';
+$lang['bad_code'] = 'The specified code (%s) is not valid.';

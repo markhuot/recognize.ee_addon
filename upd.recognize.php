@@ -25,30 +25,6 @@ class Recognize_upd
 		);
 		$this->EE->db->insert('modules', $data);
 		
-		// install extension
-		$methods = array();
-		$method_list = get_class_methods('Recognize_ext');
-		foreach ($method_list as $method)
-		{
-			if (substr($method, 0, 1) !== '_')
-			{
-				$methods[] = $method;
-			}
-		}
-		
-		foreach ($methods as $hook)
-		{
-			$this->EE->db->insert('extensions', array(
-				'class'		=> "{$this->module_name}_ext",
-				'method'	=> $hook,
-				'hook'		=> $hook,
-				'settings'	=> '',
-				'priority'	=> 10,
-				'version'	=> $this->version,
-				'enabled'	=> 'y'
-			));
-		}
-		
 		// create tables
 		$this->EE->load->dbforge();
 		$this->EE->dbforge->add_field("`id` int(11) NOT NULL AUTO_INCREMENT");
@@ -95,10 +71,6 @@ class Recognize_upd
 		// remove actions
 		$this->EE->db->where('class', $this->module_name);
 		$this->EE->db->delete('actions');
-		
-		// remove extension
-		$this->EE->db->where('class', "{$this->module_name}_ext");
-		$this->EE->db->delete('extensions');
 		
 		// drop tables
 		$this->EE->load->dbforge();

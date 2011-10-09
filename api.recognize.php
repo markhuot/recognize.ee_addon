@@ -58,9 +58,7 @@ class Recognize_api
 	
 	public function allow()
 	{
-		$this->_check_input(array(
-			'response_type' => 'code'
-		));
+		$this->_check_input(array('response_type' => 'code'));
 		$this->_check_app($this->EE->input->get('client_id'));
 		$this->_check_login();
 		
@@ -69,14 +67,12 @@ class Recognize_api
 	
 	public function post_allow()
 	{
-		$this->_check_input(array(
-			'response_type' => 'code'
-		));
+		$this->_check_input(array('response_type' => 'code'));
 		$this->_check_app($this->EE->input->get('client_id'));
 		$this->_check_login();
 		
 		$client_id = $this->EE->input->get('client_id');
-		$result = $this->EE->recognize->generate_code($client_id, 'authorization');
+		$result = $this->EE->recognize->generate_code($client_id, 'code', $this->EE->input->get('scope'));
 		
 		$url = api_url(RE_SHORT_NAME, 'redirect_uri', array(
 			'code' => $result->code,
@@ -95,13 +91,22 @@ class Recognize_api
 		$client_id = $this->EE->input->post('client_id');
 		$client_secret = $this->EE->input->post('client_secret');
 		
-		$this->_check_input(array(
-			'grant_type' => 'authorization_code'
-		));
+		$this->_check_input(array('grant_type' => 'authorization_code'));
 		$this->_check_app($client_id, $client_secret);
 		
-		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token');
-		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token');
+		$this->EE->db->where('type', 'code');
+		$this->EE->db->where('code', $this->EE->input->post('code'));
+		$code = $this->EE->db->get('exp_recognize_auths');
+		
+		if ($code->num_rows() == 0)
+		{
+			return array(
+				'error' => l('bad_code', $this->EE->input->post('code'))
+			);
+		}
+		
+		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token', $code->row('scope'));
+		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token', $code->row('scope'));
 		
 		return array(
 			'access_token' => $access_token->code,
