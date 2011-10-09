@@ -22,6 +22,7 @@ class Recognize_ext
 	{
 		$this->EE->session = $session;
 		$class = $method = FALSE;
+		$format = 'json';
 		
 		if ($this->EE->input->get('API'))
 		{
@@ -52,7 +53,7 @@ class Recognize_ext
 		if (preg_match('/^(.*)\.(xml|json)$/', $method, $match) != FALSE)
 		{
 			$method = $match[1];
-			$_GET['format'] = $match[2];
+			$format = $match[2];
 		}
 		
 		if ($class && $method)
@@ -68,9 +69,28 @@ class Recognize_ext
 			if (class_exists($class_name))
 			{
 				$api = new $class_name;
-				$api->{$method}();
+				$result = $api->{$method}();
 				
-				echo $this->EE->output->final_output;
+				if ($result === null)
+				{
+					echo $this->EE->output->final_output;
+				}
+				
+				else
+				{
+					switch ($format)
+					{
+						case 'json':
+							header('Content-type: application/json');
+							echo json_encode($result);
+							break;
+						
+						case 'xml':
+							echo "<xml><error>Not Implemented</error></xml>";
+							break;
+					}
+				}
+				
 				die;
 			}
 		}

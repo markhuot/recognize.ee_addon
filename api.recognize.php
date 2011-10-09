@@ -37,10 +37,7 @@ class Recognize_api
 			$this->EE->functions->redirect($url);
 		}
 		
-		$view = $this->EE->load->view('login', array(), TRUE);
-		$view = $this->EE->functions->add_form_security_hash($view);
-		$view = $this->EE->functions->insert_action_ids($view);
-		$this->EE->output->append_output($view);
+		$this->EE->load->view('login');
 	}
 	
 	public function post_login()
@@ -106,14 +103,12 @@ class Recognize_api
 		$access_token = $this->EE->recognize->generate_code($client_id, 'access_token');
 		$refresh_token = $this->EE->recognize->generate_code($client_id, 'refresh_token');
 		
-		header('Content-type: application/json');
-		echo json_encode((object)array(
+		return array(
 			'access_token' => $access_token->code,
 			'token_type' => 'bearer',
 			'expires_in' => $access_token->expires_in,
 			'refresh_token' => $refresh_token->code
-		));
-		exit();
+		);
 	}
 	
 	/**

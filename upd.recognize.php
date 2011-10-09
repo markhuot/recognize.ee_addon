@@ -25,20 +25,6 @@ class Recognize_upd
 		);
 		$this->EE->db->insert('modules', $data);
 		
-		// insert actions
-		foreach (array(
-			array('class' => $this->module_name, 'method' => 'authorize'),
-			array('class' => $this->module_name, 'method' => 'token'),
-			array('class' => $this->module_name, 'method' => 'login'),
-			array('class' => $this->module_name, 'method' => 'post_login'),
-			array('class' => $this->module_name, 'method' => 'allow'),
-			array('class' => $this->module_name, 'method' => 'post_allow'),
-			array('class' => $this->module_name, 'method' => 'redirect_uri'),
-		) as $action)
-		{
-			$this->EE->db->insert('actions', $action);
-		}
-		
 		// install extension
 		$methods = array();
 		$method_list = get_class_methods('Recognize_ext');
