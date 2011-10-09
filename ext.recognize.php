@@ -20,12 +20,6 @@ class Recognize_ext
 	
 	public function sessions_end($session)
 	{
-		if (@$_SESSION['recognize_post'] && !$_POST)
-		{
-			$_POST = $_SESSION['recognize_post'];
-			unset($_SESSION['recognize_post']);
-		}
-		
 		$this->EE->session = $session;
 		$class = $method = FALSE;
 		
@@ -44,7 +38,7 @@ class Recognize_ext
 		
 		else if ($this->EE->uri->segment(1) === 'api')
 		{
-			if (($class = ucfirst($this->EE->uri->segment(2))) === FALSE)
+			if (($class = $this->EE->uri->segment(2)) === FALSE)
 			{
 				return false;
 			}
@@ -55,15 +49,30 @@ class Recognize_ext
 			}
 		}
 		
+		if (preg_match('/^(.*)\.(xml|json)$/', $method, $match) != FALSE)
+		{
+			$method = $match[1];
+			$_GET['format'] = $match[2];
+		}
+		
 		if ($class && $method)
 		{
-			if ($_POST)
+			$path = PATH_THIRD."/{$class}/api.{$class}".EXT;
+			$class_name = ucfirst("{$class}_api");
+			
+			if (file_exists($path))
 			{
-				$_SESSION['recognize_post'] = $_POST;
+				require_once $path;
 			}
 			
-			$this->EE->load->helper('recognize');
-			$this->EE->functions->redirect(act_url($class, $method, $_GET));
+			if (class_exists($class_name))
+			{
+				$api = new $class_name;
+				$api->{$method}();
+				
+				echo $this->EE->output->final_output;
+				die;
+			}
 		}
 	}
 	

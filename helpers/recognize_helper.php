@@ -2,6 +2,26 @@
 
 require_once PATH_THIRD.'recognize/config'.EXT;
 
+function api_url($class, $method, $raw_params=array())
+{
+	$ee =& get_instance();
+	
+	$params = array();
+	foreach ($raw_params as $key => $value)
+	{
+		if (!in_array($key, array('ACT', 'API', 'do')))
+		{
+			$params[$key] = $value;
+		}
+	}
+	
+	$qs = ($ee->config->item('force_query_string') == 'y') ? '?' : '';
+	$class = strtolower($class);
+	$query = count($params)?http_build_query($params):'';
+	
+	return $ee->functions->fetch_site_index(0, 0)."{$qs}/api/{$class}/{$method}?{$query}";
+}
+
 function act_url($class, $method, $raw_params=array())
 {
 	$ee =& get_instance();

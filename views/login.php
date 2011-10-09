@@ -1,5 +1,5 @@
 <?=$this->functions->form_declaration(array(
-	'action' => act_url(RE_SHORT_NAME, 'post_login', $_GET)
+	'action' => api_url(RE_SHORT_NAME, 'post_login', $_GET)
 ))?>
 
 <p>
