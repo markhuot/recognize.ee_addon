@@ -12,6 +12,25 @@ class Recognize_api
 		$this->EE->load->model('recognize_model', 'recognize');
 	}
 	
+	public function verify()
+	{
+		$access_token = $this->EE->input->get('access_token');
+		
+		$this->EE->db->select('member_id');
+		$this->EE->db->where('type', 'access_token');
+		$this->EE->db->where('code', $access_token);
+		$this->EE->db->where('expires_at > '.time());
+		$user = $this->EE->db->get('exp_recognize_auths');
+		
+		if ($user->num_rows)
+		{
+			return array('member_id' => $user->row('member_id'));
+		}
+		
+		header('HTTP/1.1 403 Forbidden');
+		exit();
+	}
+	
 	public function authorize()
 	{
 		if ($this->EE->session->userdata('member_id') == FALSE)
